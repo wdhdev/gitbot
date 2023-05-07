@@ -1,5 +1,4 @@
 const bot = require("../../package.json");
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 
 module.exports = {
     name: "bot-info",
@@ -24,27 +23,15 @@ module.exports = {
             let uptime_minutes = `\`${minutes}\` minutes`;
             let uptime_seconds = `\`${seconds}\` seconds`;
 
-            if(days === 1) {
-                uptime_days = `\`${days}\` day`;
-            }
-
-            if(hours === 1) {
-                uptime_hours = `\`${hours}\` hour`;
-            }
-
-            if(minutes === 1) {
-                uptime_minutes = `\`${minutes}\` minute`;
-            }
-
-            if(seconds === 1) {
-                uptime_seconds = `\`${seconds}\` second`;
-            }
+            if(days === 1) uptime_days = `\`${days}\` day`;
+            if(hours === 1) uptime_hours = `\`${hours}\` hour`;
+            if(minutes === 1) uptime_minutes = `\`${minutes}\` minute`;
+            if(seconds === 1) uptime_seconds = `\`${seconds}\` second`;
 
             let uptime = `${uptime_days}, ${uptime_hours}, ${uptime_minutes}, ${uptime_seconds}`;
 
             const info = new Discord.EmbedBuilder()
                 .setColor(client.config_embeds.default)
-                .setAuthor({ name: client.user.username, iconURL: client.user.displayAvatarURL({ format: "png", dynamic: true }), url: `https://discord.com/users/${client.user.id}`})
                 .setThumbnail(client.user.displayAvatarURL({ format: "png", dynamic: true }))
                 .setTitle("Bot Information")
                 .addFields (
