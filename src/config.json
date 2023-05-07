@@ -1,0 +1,24 @@
+{
+    "default": {
+        "owners": []
+    },
+
+    "embeds": {
+        "default": "#171515",
+        "error": "#E74C3C"
+    },
+
+    "emojis": {
+        "error": ":x:",
+        "information": ":information_source:",
+        "pingpong": ":ping_pong:",
+        "star": ":star:",
+        "successful": ":white_check_mark:"
+    },
+
+    "presence": {
+        "activity": "/login",
+        "activityType": 3,
+        "status": "ONLINE"
+    }
+}
