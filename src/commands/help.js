@@ -29,7 +29,7 @@ module.exports = {
                 const command = require(`./${file}`);
 
                 if(command.name) {
-                    if(command.enabled === false) {
+                    if(!command.enabled) {
                         continue;
                     }
 
