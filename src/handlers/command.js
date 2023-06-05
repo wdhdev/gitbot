@@ -7,6 +7,7 @@ module.exports = (client) => {
 
     client.logCommandError = async function(err, interaction, Discord) {
         console.error(err);
+
         const error = new Discord.EmbedBuilder()
             .setColor(client.config_embeds.error)
             .setDescription(`${emoji.error} An error occurred!`)

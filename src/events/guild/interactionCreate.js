@@ -18,7 +18,7 @@ module.exports = {
 
             await interaction.deferReply({ ephemeral: true });
 
-            if(command.enabled === false) {
+            if(!command.enabled) {
                 const commandDisabled = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.error)
                     .setDescription(`${emoji.error} This command has been disabled!`)
@@ -48,18 +48,6 @@ module.exports = {
                         .setDescription(`I am missing these permissions: \`${invalidPerms.join("\`, \`")}\``)
 
                     await interaction.editReply({ embeds: [permError] });
-                    return;
-                }
-            }
-
-            const owner = client.config_default.owners.includes(interaction.user.id);
-
-            if(owner) {
-                try {
-                    await command.execute(interaction, client, Discord);
-                    return;
-                } catch(err) {
-                    client.logEventError(interaction, Discord);
                     return;
                 }
             }
@@ -130,7 +118,7 @@ module.exports = {
             try {
                 await command.execute(interaction, client, Discord);
             } catch(err) {
-                client.logEventError(interaction, Discord);
+                client.logEventError(err, interaction, Discord);
             }
         } catch(err) {
             console.error(err);

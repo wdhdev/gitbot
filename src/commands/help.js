@@ -6,20 +6,17 @@ module.exports = {
     options: [
         {
             type: 3,
+            required: false,
             name: "command",
-            description: "Get info on a specific command.",
-            required: false
+            description: "Get info on a specific command."
         }
     ],
-    userPermissions: [],
     botPermissions: [],
-    cooldown: 0,
+    cooldown: 5,
     enabled: true,
     async execute(interaction, client, Discord) {
         try {
             const cmd = interaction.options.getString("command");
-
-            const validPermissions = client.validPermissions;
 
             const cmds = [];
 
@@ -29,27 +26,7 @@ module.exports = {
                 const command = require(`./${file}`);
 
                 if(command.name) {
-                    if(!command.enabled) {
-                        continue;
-                    }
-
-                    if(command.userPermissions.length) {
-                        const invalidPerms = [];
-
-                        for(const perm of command.userPermissions) {
-                            if(!validPermissions.includes(perm)) {
-                                continue;
-                            }
-
-                            if(!interaction.member?.permissions.has(perm)) {
-                                invalidPerms.push(perm);
-                            }
-                        }
-
-                        if(invalidPerms.length) {
-                            continue;
-                        }
-                    }
+                    if(!command.enabled) continue;
 
                     cmds.push(command.name);
                 } else {
@@ -68,80 +45,17 @@ module.exports = {
             const command = client.commands.get(cmd);
 
             if(command) {
-                if(command.enabled === false) {
-                    await interaction.editReply({ embeds: [help] });
-                    return;
-                }
+                if(!command.enabled) return await interaction.editReply({ embeds: [help] });
 
-                if(command.userPermissions.length) {
-                    const invalidPerms = [];
-
-                    for(const perm of command.userPermissions) {
-                        if(!validPermissions.includes(perm)) {
-                            continue;
-                        }
-
-                        if(!interaction.member?.permissions.has(perm)) {
-                            invalidPerms.push(perm);
-                        }
-                    }
-
-                    if(invalidPerms.length) {
-                        await interaction.editReply({ embeds: [help] });
-                        return;
-                    }
-                }
-
-                let description = command.description;
-
-                if(!description) {
-                    description = "N/A";
-                }
-
-                let userPermissions = command.userPermissions;
-
-                if(userPermissions !== []) {
-                    userPermissions = `\`${userPermissions.join("\`, \`")}\``;
-                } else {
-                    userPermissions = "N/A";
-                }
-
-                if(userPermissions === "``") {
-                    userPermissions = "N/A";
-                }
-
-                let botPermissions = command.botPermissions;
-
-                if(botPermissions !== []) {
-                    botPermissions = `\`${botPermissions.join("\`, \`")}\``;
-                } else {
-                    botPermissions = "N/A";
-                }
-
-                if(botPermissions === "``") {
-                    botPermissions = "N/A";
-                }
-
-                let cooldown = command.cooldown;
-
-                if(cooldown !== "") {
-                    cooldown = `\`${command.cooldown}\` seconds`;
-                }
-
-                if(cooldown === "" || !cooldown) {
-                    cooldown = "\`0\` seconds";
-                }
-
-                if(cooldown === "1") {
-                    cooldown = "\`1\` second"
-                }
+                const description = command.description ? command.description : "N/A";
+                const botPermissions = command.botPermissions.length ? `\`${command.botPermissions.join("\`, \`")}\`` : "N/A";
+                const cooldown = command.cooldown ? command.cooldown.length === 1 ? `\`${command.cooldown}\` second` : `${command.cooldown} seconds` : "None";
 
                 const commandHelp = new Discord.EmbedBuilder()
                     .setColor(client.config_embeds.default)
                     .addFields (
                         { name: "Command", value: `\`${command.name}\`` },
                         { name: "Description", value: description },
-                        { name: "User Permissions", value: userPermissions },
                         { name: "Bot Permissions", value: botPermissions },
                         { name: "Cooldown", value: cooldown }
                     )
@@ -153,7 +67,7 @@ module.exports = {
 
             await interaction.editReply({ embeds: [help] });
         } catch(err) {
-            client.logCommandError(interaction, Discord);
+            client.logCommandError(err, interaction, Discord);
         }
     }
 }

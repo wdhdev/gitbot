@@ -1,12 +1,11 @@
 const emoji = require("../config.json").emojis;
 const { Octokit } = require("@octokit/core");
-const schema = require("../models/githubUserSchema");
+const schema = require("../models/userSchema");
 
 module.exports = {
 	name: "emails",
 	description: "Get a list of all of your emails linked to your GitHub account.",
     options: [],
-    userPermissions: [],
     botPermissions: [],
     cooldown: 5,
     enabled: true,
@@ -62,7 +61,7 @@ module.exports = {
                 }
             })
         } catch(err) {
-            client.logCommandError(interaction, Discord);
+            client.logCommandError(err, interaction, Discord);
         }
     }
 }

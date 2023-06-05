@@ -4,7 +4,6 @@ module.exports = {
     name: "bot-info",
     description: "Get information about the bot",
     options: [],
-    userPermissions: [],
     botPermissions: [],
     cooldown: 5,
     enabled: true,
@@ -46,7 +45,7 @@ module.exports = {
 
             await interaction.editReply({ embeds: [info] });
         } catch(err) {
-            client.logCommandError(interaction, Discord);
+            client.logCommandError(err, interaction, Discord);
         }
     }
 }

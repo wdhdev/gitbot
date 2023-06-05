@@ -4,7 +4,6 @@ module.exports = {
 	name: "ping",
 	description: "Bot Latency",
     options: [],
-    userPermissions: [],
     botPermissions: [],
     cooldown: 5,
     enabled: true,
@@ -28,7 +27,7 @@ module.exports = {
 
             await interaction.editReply({ embeds: [ping] });
         } catch(err) {
-            client.logCommandError(interaction, Discord);
+            client.logCommandError(err, interaction, Discord);
         }
     }
 }

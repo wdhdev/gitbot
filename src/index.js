@@ -26,7 +26,6 @@ const database = require("./util/database");
 database();
 
 // Configs
-client.config_default = config.default;
 client.config_embeds = config.embeds;
 client.config_emojis = config.emojis;
 client.config_presence = config.presence;
@@ -43,8 +42,6 @@ client.events = new Discord.Collection();
 client.login(process.env.token);
 
 // Global
-client.cooldowns = new Array();
-
 client.validPermissions = [
     "CreateInstantInvite",
     "KickMembers",
@@ -86,5 +83,8 @@ client.validPermissions = [
     "UseExternalStickers",
     "SendMessagesInThreads",
     "UseEmbeddedActivities",
-    "ModerateMembers"
+    "ModerateMembers",
+    "ViewCreatorMonetizationAnalytics",
+    "UseSoundboard",
+    "SendVoiceMessages"
 ]

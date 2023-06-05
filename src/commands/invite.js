@@ -2,7 +2,6 @@ module.exports = {
 	name: "invite",
 	description: "Sends an invite for the Discord bot",
     options: [],
-    userPermissions: [],
     botPermissions: [],
     cooldown: 5,
     enabled: true,
@@ -18,7 +17,7 @@ module.exports = {
 
             await interaction.editReply({ components: [button] });
         } catch(err) {
-            client.logCommandError(interaction, Discord);
+            client.logCommandError(err, interaction, Discord);
         }
     }
 }

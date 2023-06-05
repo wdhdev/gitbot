@@ -1,6 +1,6 @@
 const emoji = require("../config.json").emojis;
 const { Octokit } = require("@octokit/core");
-const schema = require("../models/githubUserSchema");
+const schema = require("../models/userSchema");
 
 module.exports = {
 	name: "repo",
@@ -46,7 +46,6 @@ module.exports = {
             ]
         }
     ],
-    userPermissions: [],
     botPermissions: [],
     cooldown: 5,
     enabled: true,
@@ -218,7 +217,7 @@ module.exports = {
                 return;
             }
         } catch(err) {
-            client.logCommandError(interaction, Discord);
+            client.logCommandError(err, interaction, Discord);
         }
     }
 }
