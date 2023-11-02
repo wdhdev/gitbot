@@ -5,9 +5,7 @@ try {
 
     module.exports = async () => {
         mongoose.connect(process.env.database, {
-            keepAlive: true,
-            useNewUrlParser: true,
-            useUnifiedTopology: true
+            keepAlive: true
         }).then(() => {
             console.log("Connected to Database!");
         }).catch(err => {
